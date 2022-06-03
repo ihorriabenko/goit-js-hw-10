@@ -13,26 +13,24 @@ const refs = {
 // variables
 const DEBOUNCE_DELAY = 300;
 
-
 // markup
 const onInput = e => {
   const value = refs.input.value.trim().toLowerCase();
-  const clearCard = refs.div.innerHTML = '';
-  const clearCardsList = refs.list.innerHTML = '';
+  refs.div.innerHTML = '';
+  refs.list.innerHTML = '';
 
-  fetchCountries(`${value}`)
+  fetchCountries(value)
     .then(data => {
-
       if (data.length > 10) {
         Notiflix.Notify.info(
           'Too many matches found. Please enter a more specific name.'
         );
       } else if (data.length >= 2 && data.length <= 10) {
-       clearCard;
-       clearCardsList;
+        // clearCard;
+        // clearCardsList;
         createCountries(data);
       } else {
-        clearCardsList;
+        // clearCardsList;
         createCountry(data);
       }
     })
@@ -42,7 +40,6 @@ const onInput = e => {
 };
 
 refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
-
 
 // markup functions
 function createCountries(countries) {
@@ -57,7 +54,9 @@ function createCountries(countries) {
 function createCountry(country) {
   const markup = country
     .map(country => {
-      return `<div class="container" aria-label="country card"><img class="country-info__flag" src="${country.flags.svg}" alt="${country.name}" width=20 height=20>
+      return `<div class="container" aria-label="country card"><img class="country-info__flag" src="${
+        country.flags.svg
+      }" alt="${country.name}" width=20 height=20>
       <h2>${country.name.common}</h2></div>
   <p><strong>Capital:</strong> ${country.capital}</p>
   <p><strong>Population:</strong> ${country.population}</p>
